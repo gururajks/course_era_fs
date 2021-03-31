@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import moment from 'moment';
-
-function DishDetail({ selectedDish }) {
+import { Link } from 'react-router-dom'
+function DishDetail({ selectedDish, comments }) {
 
     function renderDish(dish) {
         if (dish != null) {
@@ -23,9 +23,9 @@ function DishDetail({ selectedDish }) {
         }
     }
 
-    const renderComments = (dish) => {
-        if (dish != null) {
-            let comments = dish.comments.map(comment => {
+    const renderComments = (comments) => {
+        if (comments != null) {
+            let comments = comments.map(comment => {
                 let commentDate = new Date(comment.date);
                 return (
                     <li>
@@ -55,10 +55,20 @@ function DishDetail({ selectedDish }) {
     return (
         <div className="container">
             <div class="row">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{selectedDish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{selectedDish.name}</h3>
+                        <hr />
+                    </div>
+                </div>
                 <div className="col-12 col-md-5 m-1">
                     {renderDish(selectedDish)}
                 </div>
-                {renderComments(selectedDish)}
+                {renderComments(comments)}
             </div>
         </div>
     )
